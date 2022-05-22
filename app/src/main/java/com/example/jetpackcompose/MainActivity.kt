@@ -36,42 +36,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background)
+                        .padding(24.dp)
                 ) {
-                    SuperScriptText("Hello","World ")
+                    ExpandableCard(
+                        title = "My Title",
+                        description = "Lreom Ipsum Lreom Ipsum Lreom Ipsum Lreom Ipsum Lreom Ipsum " +
+                            "Lreom Ipsum Lreom Ipsum Lreom Ipsum Lreom Ipsum Lreom Ipsum " +
+                            "Lreom Ipsum Lreom Ipsum Lreom Ipsum "
+                    )
                 }
             }
         }
     }
 }
 
-
-@Composable
-fun SuperScriptText(
-    normalText: String,
-    superText: String
-) {
-    Text(buildAnnotatedString {
-        withStyle(
-            style = SpanStyle(
-                fontSize = MaterialTheme.typography.subtitle1.fontSize,
-            )
-        ) {
-            append(normalText)
-        }
-        withStyle(
-            style = SpanStyle(
-                fontSize = MaterialTheme.typography.overline.fontSize,
-                fontWeight = FontWeight.Normal,
-                baselineShift = BaselineShift.Superscript
-            )
-        ) {
-            append(superText)
-        }
-    })
-}
 
 @Preview(showBackground = true)
 @Composable
