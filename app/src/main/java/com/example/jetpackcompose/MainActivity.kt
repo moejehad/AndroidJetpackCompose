@@ -22,6 +22,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    CustomText()
+                    SuperScriptText("Hello","World ")
                 }
             }
         }
@@ -48,16 +49,28 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun CustomText() {
-    SelectionContainer() {
-        Column() {
-            Text(text = "Hello World")
-            DisableSelection {
-                Text(text = "Hello World !")
-            }
-            Text(text = "Hello World")
+fun SuperScriptText(
+    normalText: String,
+    superText: String
+) {
+    Text(buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                fontSize = MaterialTheme.typography.subtitle1.fontSize,
+            )
+        ) {
+            append(normalText)
         }
-    }
+        withStyle(
+            style = SpanStyle(
+                fontSize = MaterialTheme.typography.overline.fontSize,
+                fontWeight = FontWeight.Normal,
+                baselineShift = BaselineShift.Superscript
+            )
+        ) {
+            append(superText)
+        }
+    })
 }
 
 @Preview(showBackground = true)
