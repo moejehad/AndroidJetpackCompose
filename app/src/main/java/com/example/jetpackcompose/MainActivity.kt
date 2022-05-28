@@ -1,22 +1,23 @@
 package com.example.jetpackcompose
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.example.jetpackcompose.ui.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,10 +25,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeTheme {
-                Surface(
-                    color = MaterialTheme.colors.background
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Greeting()
+                    CoilImage()
                 }
             }
         }
@@ -35,52 +38,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        var text by remember { mutableStateOf("Type here ...") }
-
-        //OutlinedTextField
-        //BasicTextField
-        TextField(
-            value = text,
-            onValueChange = { newText ->
-                text = newText
-            },
-            //readOnly = true,
-            //enabled = false,
-            label = {
-                Text(text = "Title")
-            },
-            singleLine = true,
-            //maxLines = 2,
-            leadingIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Filled.Email, contentDescription = "Email"
-                    )
-                }
-            },
-            trailingIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Filled.Check, contentDescription = "Check"
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    Log.e("imeAction", "Clicked")
-                }
+fun CoilImage(){
+    Box(modifier = Modifier
+        .height(200.dp)
+        .width(200.dp), contentAlignment = Alignment. Center){
+        val painter = rememberImagePainter(data = "https://avatars.githubusercontent.com/u/28947735?v=4",
+        builder = {
+            placeholder(R.drawable.ic_launcher_foreground)
+            error(R.drawable.ic_launcher_background)
+            crossfade(1000)
+            transformations(
+                //CircleCropTransformation(),
+                RoundedCornersTransformation(50f)
             )
-        )
+        })
+        val painterState = painter.state
+        Image(painter = painter, contentDescription = "Logo Image")
+        //if (painterState is AsyncImagePainter.State.Loading){
+           // CircularProgressIndicator()
+        //}
     }
 }
 
@@ -88,6 +64,6 @@ fun Greeting() {
 @Composable
 fun DefaultPreview() {
     JetpackComposeTheme {
-        Greeting()
+
     }
 }
