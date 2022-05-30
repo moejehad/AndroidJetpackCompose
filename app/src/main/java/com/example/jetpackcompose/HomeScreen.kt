@@ -22,7 +22,7 @@ fun HomeScreen(
     ){
         Text(
             modifier = Modifier.clickable {
-                navController.navigate(route = Screen.Detail.route)
+                navController.navigate(route = Screen.Detail.passNameAndID(id = 11, name = "mohammed"))
             },
             text = "Home",
             color = MaterialTheme.colors.primary,
